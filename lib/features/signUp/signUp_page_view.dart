@@ -297,11 +297,18 @@ class signUpPageView extends GetView<signUpController> {
                             onPressed: (){
                               // When term's are agreed and required fields are filled
                               if(registerKey.currentState!.validate() && controller.termsChecked.value) {
+                                FirebaseData.normalSignupLogin(
+                                  username: controller.usernameController.text,
+                                  email: controller.emailController.text,
+                                  password: controller.passwordController.text,
+                                  gender: controller.selectGender.value,
+                                  languageHindi: controller.valuefirst.value.toString(),
+                                  languageEnglish: controller.valuesecond.value.toString(),
+                                    programmeLang: controller.dropvalue.value,
+                                );
                                       Get.dialog(
                                         AlertDialog(
                                           title: Text("Confirmed",),
-
-
                                           content: SizedBox(
                                             height: Get.height*0.2,
                                             child: Column(
@@ -378,7 +385,7 @@ class signUpPageView extends GetView<signUpController> {
                                 onTap: () {
                                   FirebaseData.signupWithGoogle();
 
-                                  print("Container tapped");
+                                  print("Container tapped Sign up");
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

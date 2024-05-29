@@ -39,7 +39,7 @@ class FirebaseData{
       if (value) {
         print("adding user in firestore database");
         await firestore.collection('users').add({
-          'name': name,
+          'username': name,
           'email': email,
           'password': password,
         });
@@ -51,6 +51,7 @@ class FirebaseData{
     });
     return false;
   }
+
 
 
   static signupWithGoogle() async {
@@ -76,6 +77,7 @@ class FirebaseData{
                 appData.email = e.user!.email!;
                 appData.password = 'abcd@1234';
                 print("hello successful 72");
+                Get.snackbar("Successfully", "Signup With Google Successful");
                 Get.toNamed("home_page_view.dart");
                 // Get.back();
                 // Get.offAllNamed(Routes.dashboard);
@@ -95,8 +97,7 @@ class FirebaseData{
 
   static signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
@@ -108,12 +109,15 @@ class FirebaseData{
      print(value.user!.email!);
      print('value.user!.email!fgff');
      if(!isExist){
+       Get.snackbar("Successfully", "SignIn With Google SuccessFull!!!");
        Get.toNamed("home_page_view.dart");
      }else{
        Get.snackbar('Warning', 'Invalid Credential');
      }
     });
   }
+//////////////////// normal login /////////////////////////////
+
 
   static normalLogin({required String email, required String password}) async {
     Get.back();
@@ -124,6 +128,7 @@ class FirebaseData{
 
      if(snapshot.docs.isNotEmpty){
        var data = snapshot.docs[0].data();
+       Get.snackbar("SuccessFull", "Login with Email Password");
        Get.toNamed("home_page_view.dart");
      }
      else{
@@ -140,4 +145,88 @@ class FirebaseData{
             animationDuration: const Duration(milliseconds: 800));
     }
   }
+////////////////////////normal signup //////////////////////////
+
+  static normalSignupLogin({required String username,required String email, required String password,
+    required String languageHindi,required String languageEnglish,required String programmeLang,
+    required int gender}) async {
+    // Get.back();
+    // CustomLoader().linearLoader();
+    try {
+      addUserWithNormalSignUp(
+          username: username,
+          email: email,
+          password: password,
+          gender: gender == 1 ? 'Male':'Female',
+          languageHindi: languageHindi,
+        languageEnglish: languageEnglish,
+        programLang: programmeLang,
+        ).then((value) async {
+          print('valueline 165');
+          print(value);
+          if(value){
+            appData.isLogin = true;
+            appData.name = username;
+            appData.email = email;
+            appData.password = password;
+            appData.gender = gender == 1 ? 'Male':'Female';
+            appData.languageHindi = languageHindi;
+            appData.languageEnglish = languageEnglish;
+              appData.programLang = programmeLang;
+            Get.toNamed("home_page_view.dart");
+            // Get.back();
+            // Get.offAllNamed(Routes.dashboard);
+          }else{
+            print("Email is already exist");
+            // Get.snackbar("Warning", "This Email is already exist");
+          }
+          // print('successfully login & data added firebase');
+        });
+
+
+
+    } on FirebaseException catch (e) {
+      print('login exception : ${e.code}');
+      Get.snackbar('Warning', 'Something went wrong',
+          backgroundColor: Colors.red,
+          borderRadius: 5,
+          snackPosition: SnackPosition.TOP,
+          animationDuration: const Duration(milliseconds: 800));
+    }
+  }
+
+  static Future addUserWithNormalSignUp({
+    required String username,
+    required String email,
+    required String password,
+    required String gender,
+    required String languageHindi,
+    required String languageEnglish,
+    required String programLang,
+
+  }) async {
+
+
+    await isEmailExist(email: email).then((value) async {
+      if (value) {
+        print("adding user in firestore database");
+        await firestore.collection('users').add({
+          'username': username,
+          'email': email,
+          'password': password,
+          'gender': gender,
+          'languageHindi': languageHindi,
+          'languageEnglish': languageEnglish,
+          'programLang': programLang,
+        });
+        Get.snackbar("Successfully", "successfully login",backgroundColor: Colors.teal);
+        Get.toNamed("home_page_view.dart");
+        return true;
+      }else{
+        print("hello i am here 49 failled");
+      }
+    });
+    return false;
+  }
+
 }

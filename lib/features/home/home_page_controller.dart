@@ -1,5 +1,5 @@
-import 'dart:ffi';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -8,6 +8,8 @@ import 'package:location/location.dart' as loc;
 class HomeController extends GetxController {
   List name = ["Nandini Mittal", "Supriya Shrivastava"];
   List course = ["Flutter Intern", "Java Intern", "Python Intern"];
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Rx<Position> position = Position(longitude: 0, latitude: 0, timestamp: DateTime.now(), accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0, altitudeAccuracy: 1.0, headingAccuracy:1.0).obs;
 

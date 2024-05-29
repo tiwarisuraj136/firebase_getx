@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'home_page_controller.dart';
 
@@ -10,6 +11,17 @@ class homePageView extends GetView<HomeController>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("HomePage"),
+      backgroundColor: Colors.green,
+      actions: [
+        IconButton(onPressed: ()async{
+          print("hello ia m here line 18");
+          await controller.auth.signOut();
+          Get.toNamed("login_page_view.dart");
+          // await GoogleSignIn().signOut();
+        }, icon: const Icon(Icons.logout))
+      ],),
+
 
       body: Center(
         child: Column(
