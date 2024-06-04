@@ -14,10 +14,10 @@ class signUpPageView extends GetView<signUpController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Sign Up"),
+        title: const Text("Sign Up"),
         leading: IconButton(
           onPressed: (){},
-          icon: Icon(Icons.arrow_back_rounded),
+          icon: const Icon(Icons.arrow_back_rounded),
         ),
       ),
       body: Form(
@@ -31,7 +31,7 @@ class signUpPageView extends GetView<signUpController> {
               child: Column(
                 children: [
                   Image(
-                    image: AssetImage('assets/images/signUp.jpg'),
+                    image: const AssetImage('assets/images/signUp.jpg'),
                     height: Get.height*0.13,
                     width: Get.width*0.4,
                   ),
@@ -43,13 +43,13 @@ class signUpPageView extends GetView<signUpController> {
                       children: [
 
                         Text("Register", style: TextStyle(fontSize: Get.width*0.05, fontWeight: FontWeight.w600),),
-                        Text("Enter your personal Information", style: TextStyle(fontWeight: FontWeight.w400, color: Colors.grey),),
+                        const Text("Enter your personal Information", style: TextStyle(fontWeight: FontWeight.w400, color: Colors.grey),),
 
 
                         SizedBox(height: Get.height*0.0125,),
 
                         // Username Field
-                        Text("Username", style: TextStyle(fontSize:Get.width*0.04, fontWeight: FontWeight.w600),),
+                     /*   Text("Username", style: TextStyle(fontSize:Get.width*0.04, fontWeight: FontWeight.w600),),
                         SizedBox(height: Get.width*0.01),
                         Container(
                           constraints: BoxConstraints(
@@ -70,7 +70,7 @@ class signUpPageView extends GetView<signUpController> {
                               }
                             },
                           ),
-                        ),
+                        ),*/
 
                         SizedBox(height: Get.height*0.0125,),
 
@@ -81,7 +81,7 @@ class signUpPageView extends GetView<signUpController> {
                         SizedBox(height: Get.width*0.01),
 
                         Container(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             maxHeight: 45
                           ),
                           child: TextFormField(
@@ -93,7 +93,7 @@ class signUpPageView extends GetView<signUpController> {
                               errorStyle: const TextStyle(height: 0.01),
 
                             ),
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                             validator: (String? value){
                               if(value!.isEmpty){
                                 return "Enter the email";
@@ -109,7 +109,7 @@ class signUpPageView extends GetView<signUpController> {
                         Text("Password", style: TextStyle(fontSize: Get.width*0.04, fontWeight: FontWeight.w600),),
                         SizedBox(height: Get.width*0.01),
                         Container(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             maxHeight: 45
                           ),
                           child: TextFormField(
@@ -135,7 +135,7 @@ class signUpPageView extends GetView<signUpController> {
                                       //
                         // Confirm Password Field
 
-                        Text("Confirm Password", style: TextStyle(fontSize: Get.width*0.04, fontWeight: FontWeight.w600),),
+                       /* Text("Confirm Password", style: TextStyle(fontSize: Get.width*0.04, fontWeight: FontWeight.w600),),
                         SizedBox(height: Get.width*0.01),
                         Container(
                           constraints: BoxConstraints(
@@ -168,10 +168,10 @@ class signUpPageView extends GetView<signUpController> {
                             ),
                           ),
                         ),
-                        SizedBox(height: Get.height*0.007,),
+                        SizedBox(height: Get.height*0.007,),*/
 
                         // Gender selection buttons
-                        Row(
+                     /*   Row(
                           children: [
                             Text("Gender : ", style: TextStyle(fontSize: Get.width*0.04, fontWeight: FontWeight.w600),),
                             SizedBox(
@@ -267,11 +267,11 @@ class signUpPageView extends GetView<signUpController> {
                             ),
                           ],
                         ),
-                        SizedBox(height: Get.height*0.012),
+                        SizedBox(height: Get.height*0.012),*/
                                       //
                         //  Check Box for agreement of term's and conditions
 
-                        Row(
+                      /*  Row(
                           children: [
                             Obx(
                               () => Checkbox(
@@ -282,7 +282,7 @@ class signUpPageView extends GetView<signUpController> {
                             ),
                             Text("I Agree to Term's & Conditions"),
                           ],
-                        ),
+                        ),*/
 
                                       //
                         // Register Button
@@ -296,19 +296,19 @@ class signUpPageView extends GetView<signUpController> {
                             ),
                             onPressed: (){
                               // When term's are agreed and required fields are filled
-                              if(registerKey.currentState!.validate() && controller.termsChecked.value) {
+                              if(registerKey.currentState!.validate() /*&& controller.termsChecked.value*/) {
                                 FirebaseData.normalSignupLogin(
-                                  username: controller.usernameController.text,
+                                  // username: controller.usernameController.text,
                                   email: controller.emailController.text,
                                   password: controller.passwordController.text,
-                                  gender: controller.selectGender.value,
-                                  languageHindi: controller.valuefirst.value.toString(),
-                                  languageEnglish: controller.valuesecond.value.toString(),
-                                    programmeLang: controller.dropvalue.value,
+                                  // gender: controller.selectGender.value,
+                                  // languageHindi: controller.valuefirst.value.toString(),
+                                  // languageEnglish: controller.valuesecond.value.toString(),
+                                  //   programmeLang: controller.dropvalue.value,
                                 );
                                       Get.dialog(
                                         AlertDialog(
-                                          title: Text("Confirmed",),
+                                          title: const Text("Confirmed",),
                                           content: SizedBox(
                                             height: Get.height*0.2,
                                             child: Column(
@@ -316,7 +316,7 @@ class signUpPageView extends GetView<signUpController> {
                                                 Padding(
                                                   padding: EdgeInsets.only(top: Get.height*0.14),
                                                   child: ElevatedButton(
-                                                    child: Text("Submit"),
+                                                    child: const Text("Submit"),
                                                     onPressed: (){
                                                       Get.toNamed("home_page_view.dart");
                                                     },
@@ -358,23 +358,23 @@ class signUpPageView extends GetView<signUpController> {
                               }
 
                             },
-                            child: Text("Register",style: TextStyle(color: Colors.white),
+                            child: const Text("Register",style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
 
-                        SizedBox(height: 15.0,),
+                        const SizedBox(height: 15.0,),
                                       //
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(child: Divider(color: Colors.grey, endIndent: Get.width*0.01,)),
-                            Text("Or Sign up with"),
+                            const Text("Or Sign up with"),
                             Expanded(child: Divider(color: Colors.grey,indent: Get.width*0.01,)),
                           ],
                         ),
 
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
 
                         Padding(
                           padding: const EdgeInsets.only(left: 30.0, right: 30.0),
@@ -441,17 +441,17 @@ class signUpPageView extends GetView<signUpController> {
                           ),
                         ),
 
-                        SizedBox(height: 5.0,),
+                        const SizedBox(height: 5.0,),
                         // Navigation to login page
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Already have a account ?"),
+                            const Text("Already have a account ?"),
                             TextButton(
                                 onPressed: (){
                                   Get.toNamed("login_page_view.dart");
                                 },
-                                child: Text("Login")
+                                child: const Text("Login")
                             )
                           ],
                         )

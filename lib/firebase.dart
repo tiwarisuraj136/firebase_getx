@@ -9,6 +9,8 @@ class FirebaseData{
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static FirebaseAuth auth = FirebaseAuth.instance;
 
+
+  ///////////////// sign in google  email check start ///////////////
   static Future isEmailExist({required String email}) async {
     print('email15');
     print(email);
@@ -22,11 +24,10 @@ class FirebaseData{
     print('checkEmail21');
     return checkEmail.docs.isEmpty;
   }
-
+///////////////// sign in google  email check  end ///////////////
 
 
   static Future addUser({
-    required String name,
     required String password,
     required String email,
   }) async {
@@ -39,7 +40,6 @@ class FirebaseData{
       if (value) {
         print("adding user in firestore database");
         await firestore.collection('users').add({
-          'username': name,
           'email': email,
           'password': password,
         });
@@ -54,55 +54,68 @@ class FirebaseData{
 
 
 
+
+
+
   static signupWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        // idToken: googleAuth?.idToken,
       );
+
+      print('credential hello i am here line 65');
+      print(credential);
+      print(credential.accessToken);
+      // print(credential.idToken);
+      print('credentialhello i am here 67');
+
       await auth.signInWithCredential(credential).then((e) async {
         addUser(
-             name: e.user!.displayName!,
-             email: e.user!.email!,
-             password: 'abcd@1234',
-            )
-            .then((value) async {
-              print(value);
-              if(value){
-                appData.isLogin = true;
-                appData.name = e.user!.displayName!;
-                appData.email = e.user!.email!;
-                appData.password = 'abcd@1234';
-                print("hello successful 72");
-                Get.snackbar("Successfully", "Signup With Google Successful");
-                Get.toNamed("home_page_view.dart");
-                // Get.back();
-                // Get.offAllNamed(Routes.dashboard);
-              }else{
-                print("Email is already exist");
-                Get.snackbar("Warning", "This Email is already exist");
-              }
-             // await GoogleSignIn().signOut();
+          email: e.user!.email!,
+          password: 'abcd@1234',
+        ).then((value) async {
+          print('valuehelllo i want value');
+          print(value);
+
+
+          appData.email = e.user!.email!;
+          appData.password = 'abcd@1234';
+
+          print("hello successful 72");
+          Get.snackbar("Successfully", "Signup With Google Successful");
+          Get.toNamed("home_page_view.dart");
           print('successfully login & data added firebase');
         });
       });
     } catch (e) {
       Get.back();
       print('Google exception : $e');
+    } finally {
+      // Ensure the user is signed out from Google after the operation
+      // await GoogleSignIn().signOut();
+      await GoogleSignIn().disconnect();
     }
   }
+
 
   static signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      // idToken: googleAuth?.idToken,
     );
+
+
     await auth.signInWithCredential(credential).then((value) async {
+      print("hello i am here line 113");
+      print(credential.accessToken);
+      // print(credential.idToken);
+      print('credential.idToken line 116');
      bool isExist = await isEmailExist( email: value.user!.email!);
      print('isExisthhhhh');
      print(isExist);
@@ -128,6 +141,9 @@ class FirebaseData{
 
      if(snapshot.docs.isNotEmpty){
        var data = snapshot.docs[0].data();
+       print('datahello i am here 138');
+       print(data);
+       print('datahello i am here 140');
        Get.snackbar("SuccessFull", "Login with Email Password");
        Get.toNamed("home_page_view.dart");
      }
@@ -147,40 +163,24 @@ class FirebaseData{
   }
 ////////////////////////normal signup //////////////////////////
 
-  static normalSignupLogin({required String username,required String email, required String password,
-    required String languageHindi,required String languageEnglish,required String programmeLang,
-    required int gender}) async {
-    // Get.back();
-    // CustomLoader().linearLoader();
+  static normalSignupLogin({required String email, required String password,}) async {
+
     try {
       addUserWithNormalSignUp(
-          username: username,
           email: email,
           password: password,
-          gender: gender == 1 ? 'Male':'Female',
-          languageHindi: languageHindi,
-        languageEnglish: languageEnglish,
-        programLang: programmeLang,
+
         ).then((value) async {
           print('valueline 165');
           print(value);
           if(value){
             appData.isLogin = true;
-            appData.name = username;
             appData.email = email;
             appData.password = password;
-            appData.gender = gender == 1 ? 'Male':'Female';
-            appData.languageHindi = languageHindi;
-            appData.languageEnglish = languageEnglish;
-              appData.programLang = programmeLang;
             Get.toNamed("home_page_view.dart");
-            // Get.back();
-            // Get.offAllNamed(Routes.dashboard);
           }else{
             print("Email is already exist");
-            // Get.snackbar("Warning", "This Email is already exist");
           }
-          // print('successfully login & data added firebase');
         });
 
 
@@ -196,13 +196,10 @@ class FirebaseData{
   }
 
   static Future addUserWithNormalSignUp({
-    required String username,
+
     required String email,
     required String password,
-    required String gender,
-    required String languageHindi,
-    required String languageEnglish,
-    required String programLang,
+
 
   }) async {
 
@@ -211,13 +208,9 @@ class FirebaseData{
       if (value) {
         print("adding user in firestore database");
         await firestore.collection('users').add({
-          'username': username,
+
           'email': email,
           'password': password,
-          'gender': gender,
-          'languageHindi': languageHindi,
-          'languageEnglish': languageEnglish,
-          'programLang': programLang,
         });
         Get.snackbar("Successfully", "successfully login",backgroundColor: Colors.teal);
         Get.toNamed("home_page_view.dart");
